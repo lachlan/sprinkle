@@ -15,7 +15,7 @@ module Sprinkle
     #   end
     #
     # If you user has access to 'sudo' and theres a file that requires
-    # priveledges, you can pass :sudo => true 
+    # privileges, you can pass :sudo => true 
     #
     #   package :magic_beans do
     #     push_text 'magic_beans', '/etc/apache2/apache2.conf', :sudo => true

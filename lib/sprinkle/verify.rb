@@ -49,7 +49,7 @@ module Sprinkle
   #
   # To register your verifier, call the register method on Sprinkle::Verify:
   #
-  #   Sprinle::Verify.register(MagicBeansVerifier)
+  #   Sprinkle::Verify.register(MagicBeansVerifier)
   #
   # And now you may use it like any other verifier:
   #
