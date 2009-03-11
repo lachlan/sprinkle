@@ -47,6 +47,7 @@ lib/sprinkle/installers/gem.rb
 lib/sprinkle/installers/installer.rb
 lib/sprinkle/installers/rake.rb
 lib/sprinkle/installers/rpm.rb
+lib/sprinkle/installers/script.rb
 lib/sprinkle/installers/source.rb
 lib/sprinkle/installers/yum.rb
 lib/sprinkle/installers/freebsd_pkg.rb

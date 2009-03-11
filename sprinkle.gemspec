@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
              "lib/sprinkle/extensions/array.rb", "lib/sprinkle/extensions/blank_slate.rb", "lib/sprinkle/extensions/dsl_accessor.rb",
              "lib/sprinkle/extensions/string.rb", "lib/sprinkle/extensions/symbol.rb", "lib/sprinkle/installers/apt.rb",
              "lib/sprinkle/installers/deb.rb", "lib/sprinkle/installers/gem.rb", "lib/sprinkle/installers/installer.rb",
-             "lib/sprinkle/installers/rake.rb", "lib/sprinkle/installers/rpm.rb", "lib/sprinkle/installers/source.rb",
+             "lib/sprinkle/installers/rake.rb", "lib/sprinkle/installers/rpm.rb", "lib/sprinkle/installers/script.rb","lib/sprinkle/installers/source.rb",
              "lib/sprinkle/installers/yum.rb", "lib/sprinkle/installers/freebsd_pkg.rb", "lib/sprinkle/installers/openbsd_pkg.rb",
              "lib/sprinkle/installers/opensolaris_pkg.rb", "lib/sprinkle/installers/bsd_port.rb", "lib/sprinkle/installers/mac_port.rb", "lib/sprinkle/installers/push_text.rb", 
              "lib/sprinkle/package.rb", "lib/sprinkle/policy.rb", "lib/sprinkle/script.rb", "lib/sprinkle/verifiers/directory.rb", 
