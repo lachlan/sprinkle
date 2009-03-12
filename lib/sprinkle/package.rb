@@ -174,8 +174,8 @@ module Sprinkle
         @installer = Sprinkle::Installers::PushText.new(self, text, path, options, &block)
       end
 
-      def script(name, path, options = {}, &block)
-        @installer = Sprinkle::Installers::Script.new(self, name, path, options, &block)
+      def script(name, options = {}, &block)
+        @installer = Sprinkle::Installers::Script.new(self, name, options, &block)
       end
       
       def verify(description = '', &block)

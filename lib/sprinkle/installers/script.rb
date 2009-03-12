@@ -10,19 +10,22 @@ module Sprinkle
     #     script '/some/path/to/install/script/for/magic_beans'
     #   end
     class Script < Installer
-      attr_accessor :script, :path #:nodoc:
+      attr_accessor :script_file, :script_path #:nodoc:
+      @@command_delimiter = (RUBY_PLATFORM =~ /win32/ ? ' & ' : '; ')
 
-      def initialize(parent, script, path, options={}, &block) #:nodoc:
+      def initialize(parent, name, options={}, &block) #:nodoc:
         super parent, options, &block
-        @script = script
-        @path = path
+        @script_path, @script_file = File.split name
       end
 
       protected
 
         def install_commands #:nodoc:
-          delim = RUBY_PLATFORM =~ /win32/ ? ' & ' : '; '
-          "pushd \"#{path}\"#{delim}#{script}#{delim}popd"
+          commands = []
+          commands << "pushd \"#{@script_path}\"" if @script_path
+          commands << @script_file
+          commands << "popd" if @script_path
+          commands.join(@@command_delimiter)
         end
 
       end
