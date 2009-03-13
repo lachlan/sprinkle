@@ -23,8 +23,13 @@ module Sprinkle
         def install_commands #:nodoc:
           commands = []
           commands << "pushd \"#{@script_path}\"" if @script_path
-          commands << @script_file
+          
+          command = @script_file
+          command += ' > NUL' if RUBY_PLATFORM =~ /win32/
+          commands << command
+
           commands << "popd" if @script_path
+
           commands.join(@@command_delimiter)
         end
 

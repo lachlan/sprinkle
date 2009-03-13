@@ -16,7 +16,7 @@ module Sprinkle
       # Checks to make sure <tt>path</tt> is a file on the remote server.
       def has_file(path)
         if RUBY_PLATFORM =~ /win32/
-          @commands << "dir /b /a-d \"#{path}\""
+          @commands << "dir /b /a-d \"#{path}\" > NUL"
         else
           @commands << "test -f #{path}"
         end
@@ -24,7 +24,7 @@ module Sprinkle
       
       def file_contains(path, text)
         if RUBY_PLATFORM =~ /win32/
-          @commands << "find \"#{text}\" \"#{path}\""
+          @commands << "find \"#{text}\" \"#{path}\" > NUL"
         else
           @commands << "grep '#{text}' #{path}"
         end
