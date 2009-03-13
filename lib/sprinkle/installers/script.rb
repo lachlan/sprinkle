@@ -25,7 +25,7 @@ module Sprinkle
           commands << "pushd \"#{@script_path}\"" if @script_path
           
           command = @script_file
-          command += ' > NUL' if RUBY_PLATFORM =~ /win32/
+          command += ' > NUL' if RUBY_PLATFORM =~ /win32/ and not logger.debug?
           commands << command
 
           commands << "popd" if @script_path
