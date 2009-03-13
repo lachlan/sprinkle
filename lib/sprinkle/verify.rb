@@ -87,7 +87,7 @@ module Sprinkle
       description = @description.empty? ? @package.name : @description
       
       if logger.debug?
-        logger.debug "#{@package.name}#{description} verification sequence: #{@commands.join('; ')} for roles: #{roles}\n"
+        logger.debug "#{@package.name} verification sequence: #{@commands.join('; ')} for roles: #{roles}\n"
       end
       
       unless Sprinkle::OPTIONS[:testing]
