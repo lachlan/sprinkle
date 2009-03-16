@@ -11,7 +11,7 @@ module Sprinkle
       def has_directory(dir)
         if RUBY_PLATFORM =~ /win32/
           dir += "\\" unless dir[-1,1] == "\\"
-          command = "if exist \"#{dir}\" (set errorlevel=0) else (set errorlevel=1)"
+          command = "if exist \"#{dir}\" (exit 0) else (exit 1)"
           command += ' > NUL' unless logger.debug?
         else
           command = "test -d #{dir}"
