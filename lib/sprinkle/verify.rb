@@ -86,12 +86,10 @@ module Sprinkle
       
       description = @description.empty? ? @package.name : @description
       
-      if logger.debug?
-        logger.debug "#{@package.name} verification sequence: #{@commands.join('; ')} for roles: #{roles}\n"
-      end
+      logger.debug "--> Verification sequence for roles: #{roles}\n#{@commands.join("\n")}"
       
       unless Sprinkle::OPTIONS[:testing]
-        logger.info "#{" " * @options[:padding]}--> Verifying #{description}..."
+        logger.info "--> Verifying if installed..."
         
         unless @delivery.process(@package.name, @commands, roles, true)
           # Verification failed, halt sprinkling gracefully.
