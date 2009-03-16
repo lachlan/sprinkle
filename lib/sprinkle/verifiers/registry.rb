@@ -6,15 +6,15 @@ module Sprinkle
     #
     # == Example Usage
     #
-    #   verify { has_registry_key "path", "name", "value" }
+    #   verify { has_registry_key "HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" }
     #
     module Registry
       Sprinkle::Verify.register(Sprinkle::Verifiers::Registry)
 
       # Checks to make sure the <tt>registry</tt> key exists
-      def registry_has_key(key)
+      def has_registry_key(key)
         if RUBY_PLATFORM =~ /win32/
-          command = "reg query \"#{key}\" 2>&1 | find \"! REG.EXE VERSION\""
+          command = "reg query \"#{key}\" 2>&1 | findstr /c:\"! REG.EXE VERSION\""
           command += ' > NUL' unless logger.debug?
         else
           raise NotImplementedError, "Non-win32 platforms do not support checking for registry settings"
@@ -23,9 +23,9 @@ module Sprinkle
       end
 
       # Checks to make sure the <tt>registry</tt> value exists
-      def registry_has_value(key, name, value)
+      def has_registry_value(key, name, value)
         if RUBY_PLATFORM =~ /win32/
-          command = "reg query \"#{key}\" /v \"#{name}\" | find \"#{value}\""
+          command = "reg query \"#{key}\" /v \"#{name}\" | findstr /c:\"#{value}\""
           command += ' > NUL' unless logger.debug?
         else
           raise NotImplementedError, "Non-win32 platforms do not support checking for registry settings"

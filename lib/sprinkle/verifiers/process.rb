@@ -15,7 +15,7 @@ module Sprinkle
       # on the remote server.
       def has_process(process)
         if RUBY_PLATFORM =~ /win32/
-          command = "tasklist /fo table /nh | find \"#{process}\""
+          command = "tasklist /fo table /nh | findstr /c:\"#{process}\""
           command += ' > NUL' unless logger.debug?
         else
           command = "ps aux | grep '#{process}' | grep -v grep"
