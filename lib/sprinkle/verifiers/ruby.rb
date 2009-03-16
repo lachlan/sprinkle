@@ -18,7 +18,13 @@ module Sprinkle
       # Checks if a gem exists by calling "sudo gem list" and grepping against it.
       def has_gem(name, version=nil)
         version = version.nil? ? '' : version.gsub('.', '\.')
-        @commands << "sudo gem list | grep -e '^#{name} (.*#{version}.*)$'"
+        if RUBY_PLATFORM =~ /win32/
+          command = "gem list | findstr /r /c:\"^#{name} (.*#{version}.*)$\""
+          command += ' > NUL' unless logger.debug?
+        else
+          command = "sudo gem list | grep -e '^#{name} (.*#{version}.*)$'"
+        end
+        @commands << command
       end
     end
   end

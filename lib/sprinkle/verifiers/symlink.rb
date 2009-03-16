@@ -19,10 +19,14 @@ module Sprinkle
       # Checks that <tt>symlink</tt> is a symbolic link. If <tt>file</tt> is 
       # given, it checks that <tt>symlink</tt> points to <tt>file</tt>
       def has_symlink(symlink, file = nil)
-        if file.nil?
-          @commands << "test -L #{symlink}"
+        if RUBY_PLATFORM =~ /win32/
+          raise NotImplementedError, "Win32 platform does not support checking for symbolic links"
         else
-          @commands << "test '#{file}' = `readlink #{symlink}`"
+          if file.nil?
+            @commands << "test -L #{symlink}"
+          else
+            @commands << "test '#{file}' = `readlink #{symlink}`"
+          end
         end
       end
     end

@@ -23,12 +23,16 @@ module Sprinkle
       # absolute path to an executable. If no '/' is in the path, it assumes you're
       # checking for a global executable that would be available anywhere on the command line.
       def has_executable(path)
-        # Be smart: If the path includes a forward slash, we're checking
-        # an absolute path. Otherwise, we're checking a global executable
-        if path.include?('/')
-          @commands << "test -x #{path}"
+        if RUBY_PLATFORM =~ /win32/
+          raise NotImplementedError, "Win32 platform does not support checking for executables"
         else
-          @commands << "[ -n \"`echo \\`which #{path}\\``\" ]"
+          # Be smart: If the path includes a forward slash, we're checking
+          # an absolute path. Otherwise, we're checking a global executable
+          if path.include?('/')
+            @commands << "test -x #{path}"
+          else
+            @commands << "[ -n \"`echo \\`which #{path}\\``\" ]"
+          end
         end
       end
     end

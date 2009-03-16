@@ -9,7 +9,14 @@ module Sprinkle
       
       # Tests that the directory <tt>dir</tt> exists.
       def has_directory(dir)
-        @commands << "test -d #{dir}"
+        if RUBY_PLATFORM =~ /win32/
+          dir += "\\" unless dir[-1,1] == "\\"
+          command = "if exist \"#{dir}\" (set errorlevel=0) else (set errorlevel=1)"
+          command += ' > NUL' unless logger.debug?
+        else
+          command = "test -d #{dir}"
+        end
+        @commands << command
       end
     end
   end
