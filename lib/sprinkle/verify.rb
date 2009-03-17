@@ -84,8 +84,6 @@ module Sprinkle
     def process(roles, pre = false) #:nodoc:
       assert_delivery
       
-      description = @description.empty? ? @package.name : @description
-      
       logger.debug "--> Verification sequence for roles: #{roles}\n#{@commands.join("\n")}"
       
       unless Sprinkle::OPTIONS[:testing]
@@ -93,20 +91,20 @@ module Sprinkle
         
         unless @delivery.process(@package.name, @commands, roles, true)
           # Verification failed, halt sprinkling gracefully.
-          raise Sprinkle::VerificationFailed.new(@package, description)
+          raise Sprinkle::VerificationFailed.new(@package, @commands)
         end
       end
     end
   end
   
   class VerificationFailed < Exception #:nodoc:
-    attr_accessor :package, :description
+    attr_accessor :package, :commands
     
-    def initialize(package, description)
-      super("Verifying #{package.name}#{description} failed.")
+    def initialize(package, commands)
+      super("Verifying #{package.name} failed: #{commands.join(RUBY_PLATFORM =~ /win32/ ? ' & ' : '; ')}")
       
       @package = package
-      @description = description
+      @commands = commands
     end
   end
 end
