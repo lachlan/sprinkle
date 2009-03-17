@@ -26,7 +26,7 @@ module Sprinkle
       
       def file_contains(path, text)
         if RUBY_PLATFORM =~ /win32/
-          command = "findstr /c:\"#{text}\" \"#{path}\""
+          command = "findstr /m /c:\"#{text}\" \"#{path}\""
           command += ' > NUL' unless logger.debug?
         else
           command = "grep '#{text}' #{path}"
