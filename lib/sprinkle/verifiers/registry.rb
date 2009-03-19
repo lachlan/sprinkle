@@ -1,6 +1,6 @@
 module Sprinkle
   module Verifiers
-    # = Process Verifier
+    # = Registry Verifier
     #
     # Contains a verifier to check a Win32 registry setting.
     #
