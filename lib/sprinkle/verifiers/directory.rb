@@ -18,6 +18,7 @@ module Sprinkle
         end
         @commands << command
       end
+      
     end
   end
 end
