@@ -15,7 +15,8 @@ module Sprinkle
       # Checks to make sure the <tt>environment variable</tt> exists or has a specific value 
       def has_environment_variable(name, value = nil)
         if RUBY_PLATFORM =~ /win32/
-          command = value.nil? "if \"%#{name}%\" == "" (exit 1) else (exit 0)" : "if \"%#{name}%\" == \"#{value.escape_for_win32_shell}\" (exit 0) else (exit 1)"
+          command = "cmd.exe /c if \"%#{name}%\" == \""
+          command += value.nil? ? "\" (exit 1) else (exit 0)" : "#{value.escape_for_win32_shell}\" (exit 0) else (exit 1)"
           command += ' > NUL 2>&1' unless logger.debug?
         else
           command = value.nil? ? "test -n $#{name}" : "test $#{name} == \"value\""
@@ -26,7 +27,7 @@ module Sprinkle
       # Checks to make sure the <tt>environment variable</tt> contains the given text 
       def environment_variable_contains(name, text)
         if RUBY_PLATFORM =~ /win32/
-          command = "echo \"%#{name}%\" | findstr /c:\"#{text}\""
+          command = "cmd.exe /c echo \"%#{name}%\" | findstr /c:\"#{text}\""
           command += ' > NUL 2>&1' unless logger.debug?
         else
           command = "echo $#{name} | grep '#{text}'"
