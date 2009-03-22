@@ -21,7 +21,7 @@ module Sprinkle
           command += " | findstr /r /c:\"=#{Regexp.quote value}$\"" if value
           command += ' > NUL 2>&1' unless logger.debug?
         else
-          command = value.nil? ? "test -n $#{name}" : "test $#{name} == \"value\""
+          command = value.nil? ? "test -n $#{name}" : "test $#{name} == \"#{value}\""
         end
         @commands << command
       end
