@@ -184,7 +184,8 @@ module Sprinkle
 
       def process(deployment, roles)
         return if meta_package?
-        
+
+        logger.info "\n#{self.name}"
         # Run a pre-test to see if the software is already installed. If so,
         # we can skip it, unless we have the force option turned on!
         unless @verifications.empty? || Sprinkle::OPTIONS[:force]
@@ -208,7 +209,6 @@ module Sprinkle
         return if @verifications.blank?
         
         if pre
-          logger.info "\n#{self.name}"
           logger.debug "--> Checking if already installed for roles: #{roles}"
         else
           logger.info "--> Verifying if properly installed for roles: #{roles}"
