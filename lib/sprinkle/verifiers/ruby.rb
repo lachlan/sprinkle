@@ -20,7 +20,7 @@ module Sprinkle
         version = version.nil? ? '' : version.gsub('.', '\.')
         if RUBY_PLATFORM =~ /win32/
           command = "gem list | findstr /r /c:\"^#{name} (.*#{version}.*)$\""
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "sudo gem list | grep -e '^#{name} (.*#{version}.*)$'"
         end

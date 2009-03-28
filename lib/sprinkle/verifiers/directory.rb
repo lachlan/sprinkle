@@ -12,7 +12,7 @@ module Sprinkle
         if RUBY_PLATFORM =~ /win32/
           dir += "\\" unless dir[-1,1] == "\\"
           command = "if exist \"#{dir}\" (exit 0) else (exit 1)"
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "test -d #{dir}"
         end

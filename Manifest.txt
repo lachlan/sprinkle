@@ -31,6 +31,7 @@ lib/sprinkle.rb
 lib/sprinkle/actors/actors.rb
 lib/sprinkle/actors/capistrano.rb
 lib/sprinkle/actors/local.rb
+lib/sprinkle/actors/psexec.rb
 lib/sprinkle/actors/ssh.rb
 lib/sprinkle/actors/vlad.rb
 lib/sprinkle/configurable.rb

@@ -18,8 +18,8 @@ module Sprinkle
           # use set | findstr to avoid shell substitution, which does not appear to work reliably with Kernel.system
           # use case insensitivity for variable name but not value
           command = "set | findstr /i /r /c:\"^#{Regexp.quote name}=\""
-          command += " | findstr /r /c:\"=#{Regexp.quote value}$\"" if value
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << " | findstr /r /c:\"=#{Regexp.quote value}$\"" if value
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           command = value.nil? ? "test -n $#{name}" : "test $#{name} == \"#{value}\""
         end
@@ -32,7 +32,7 @@ module Sprinkle
           # use set | findstr to avoid shell substitution, which does not appear to work reliably with Kernel.system
           # use case insensitivity for variable name but not text
           command = "set | findstr /i /r /c:\"^#{Regexp.quote name}=\" | findstr /r /c:\"^.*=.*#{Regexp.quote text}.*$\""
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "echo $#{name} | grep '#{text}'"
         end

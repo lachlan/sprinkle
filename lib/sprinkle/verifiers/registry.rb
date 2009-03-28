@@ -15,7 +15,7 @@ module Sprinkle
       def has_registry_key(key)
         if RUBY_PLATFORM =~ /win32/
           command = "reg query \"#{key}\" 2>&1 | findstr /c:\"! REG.EXE VERSION\""
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           raise NotImplementedError, "Non-win32 platforms do not support checking for registry settings"
         end
@@ -26,7 +26,7 @@ module Sprinkle
       def has_registry_value(key, name, value)
         if RUBY_PLATFORM =~ /win32/
           command = "reg query \"#{key}\" /v \"#{name}\" | findstr /c:\"#{value}\""
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           raise NotImplementedError, "Non-win32 platforms do not support checking for registry settings"
         end

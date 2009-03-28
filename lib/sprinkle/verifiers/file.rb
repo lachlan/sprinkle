@@ -17,7 +17,7 @@ module Sprinkle
       def has_file(path)
         if RUBY_PLATFORM =~ /win32/
           command = "if exist \"#{path}\" (if not exist \"#{path}\\\" (exit 0) else (exit 1)) else (exit 1)"
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "test -f #{path}"
         end
@@ -27,7 +27,7 @@ module Sprinkle
       def file_contains(path, text)
         if RUBY_PLATFORM =~ /win32/
           command = "findstr /m /c:\"#{text}\" \"#{path}\""
-          command += ' > NUL 2>&1' unless logger.debug?
+          command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "grep '#{text}' #{path}"
         end
