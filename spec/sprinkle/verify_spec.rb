@@ -140,7 +140,7 @@ describe Sprinkle::Verify do
       end
 
       it 'should print the install sequence to the console' do
-        @verification.should_receive(:logger).twice.and_return(@logger)
+        @verification.should_receive(:logger).once.and_return(@logger)
       end
       
       after do
