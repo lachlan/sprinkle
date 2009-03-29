@@ -158,7 +158,7 @@ module Sprinkle
 
       def gem(name, options = {}, &block)
         @recommends << :rubygems
-        @installer = Sprinkle::Installers::Gem.new(self, name, options, &block)
+        @installer = Sprinkle::Installers::Gem.new(self, name, {:version => @version}.merge(options), &block)
       end
 
       def source(source, options = {}, &block)
