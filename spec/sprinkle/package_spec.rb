@@ -90,7 +90,7 @@ CODE
 
     it 'should be able to represent itself as a string' do
       pkg = package @name do; end
-      pkg.to_s.should == @name
+      pkg.to_s.should == @name.to_s
     end
 
   end
@@ -99,7 +99,7 @@ CODE
 
     it 'should added new packages to the global package hash' do
       pkg = package @name do; end
-      Sprinkle::Package::PACKAGES[@name].should == pkg
+      Sprinkle::Package::PACKAGES[@name].first.should == pkg
     end
 
     it 'should add the new package to the provides list if specified' do

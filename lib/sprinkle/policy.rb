@@ -76,16 +76,17 @@ module Sprinkle
 
         @packages.each do |p|
           cloud_info "\nPolicy #{@name} requires package #{p}"
+          
+          list = Sprinkle::Package.find(p)
+          raise "Package definition not found: #{p}" unless list
 
-          package = Sprinkle::Package::PACKAGES[p]
-          raise "Package definition not found for key: #{p}" unless package
-          package = select_package(p, package) if package.is_a? Array # handle virtual package selection
+          list.each { |package|
+            tree = package.tree do |parent, child, depth|
+              indent = "\t" * depth; cloud_info "#{indent}Package #{parent.to_s} requires #{child.to_s}"
+            end
 
-          tree = package.tree do |parent, child, depth|
-            indent = "\t" * depth; cloud_info "#{indent}Package #{parent.name} requires #{child.name}"
-          end
-
-          all << tree
+            all << tree
+          }
         end
 
         normalize(all) do |package|
@@ -99,25 +100,9 @@ module Sprinkle
           logger.info(message) if Sprinkle::OPTIONS[:cloud] or logger.debug?
         end
 
-        def select_package(name, packages)
-          if packages.size <= 1
-            package = packages.first
-          else
-            package = choose do |menu|
-              menu.prompt = "Multiple choices exist for virtual package #{name}"
-              menu.choices *packages.collect(&:to_s)
-            end
-            package = Sprinkle::Package::PACKAGES[package]
-          end
-
-          cloud_info "Selecting #{package.to_s} for virtual package #{name}"
-
-          package
-        end
-
         def normalize(all, &block)
           all = all.flatten.uniq
-          cloud_info "\n--> Normalized installation order for all packages: #{all.collect(&:name).join(', ')}"
+          cloud_info "\n--> Normalized installation order for all packages: #{all.map(&:to_s).join(', ')}"
           all.each &block
         end
     end

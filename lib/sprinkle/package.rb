@@ -96,17 +96,34 @@ module Sprinkle
 
     def package(name, metadata = {}, &block)
       package = Package.new(name, metadata, &block)
-      PACKAGES[name] = package
-
-      if package.provides
-        (PACKAGES[package.provides] ||= []) << package
-      end
-
+      (PACKAGES[name] ||= []) << package
+      (PACKAGES[package.provides] ||= []) << package if package.provides
       package
+    end
+    
+    def find(name)
+      packages = PACKAGES[name]
+      if packages and packages.length > 1
+        selected = []
+        choose do |menu|
+          menu.header = "\nMultiple choices exist for package #{name}"
+          packages.sort!.each do |package|
+            menu.choice("#{package.name}#{' (' + package.version + ')' if package.version}") do
+              selected << package
+            end
+          end
+          menu.choice("all") do
+            selected = packages
+          end
+        end
+        packages = selected
+      end
+      packages
     end
 
     class Package #:nodoc:
       include ArbitraryOptions
+      include Comparable
       attr_accessor :name, :provides, :installer, :dependencies, :recommends, :verifications
 
       def initialize(name, metadata = {}, &block)
@@ -185,7 +202,7 @@ module Sprinkle
       def process(deployment, roles)
         return if meta_package?
 
-        logger.info "\n#{self.name}"
+        logger.info "\n#{self.to_s}"
         # Run a pre-test to see if the software is already installed. If so,
         # we can skip it, unless we have the force option turned on!
         unless @verifications.empty? || Sprinkle::OPTIONS[:force]
@@ -233,44 +250,38 @@ module Sprinkle
       def tree(depth = 1, &block)
         packages = []
 
-        @recommends.each do |dep|
-          package = PACKAGES[dep]
-          next unless package # skip missing recommended packages as they can be optional
-          block.call(self, package, depth) if block
-          packages << package.tree(depth + 1, &block)
+        @recommends.each do |name|
+          list = find(name)
+          next unless list # skip missing recommended packages as they can be optional
+          list.each { |package| 
+            block.call(self, package, depth) if block
+            packages << package.tree(depth + 1, &block)
+          }
         end
 
-        @dependencies.each do |dep|
-          package = PACKAGES[dep]
-          package = select_package(dep, package) if package.is_a? Array
-          
-          raise "Package definition not found for key: #{dep}" unless package
-          block.call(self, package, depth) if block
-          packages << package.tree(depth + 1, &block)
+        @dependencies.each do |name|
+          list = find(name)
+          raise "Package definition not found: #{name}" unless list
+          list.each { |package|
+            block.call(self, package, depth) if block
+            packages << package.tree(depth + 1, &block)
+          }
         end
 
         packages << self
       end
 
-      def to_s; @name; end
+      def to_s
+        s = @name.to_s
+        s << " (#{@version.to_s})" if @version
+        s
+      end
+      
+      def <=>(other)
+        self.to_s <=> other.to_s
+      end
 
       private
-
-        def select_package(name, packages)
-          if packages.size <= 1
-            package = packages.first
-          else
-            package = choose do |menu|
-              menu.prompt = "Multiple choices exist for virtual package #{name}"
-              menu.choices *packages.collect(&:to_s)
-            end
-            package = Sprinkle::Package::PACKAGES[package]
-          end
-
-          cloud_info "Selecting #{package.to_s} for virtual package #{name}"
-
-          package
-        end
 
         def meta_package?
           @installer == nil
