@@ -102,7 +102,7 @@ module Sprinkle
 
         def normalize(all, &block)
           all = all.flatten.uniq
-          cloud_info "\n--> Normalized installation order for all packages: #{all.map(&:to_s).join(', ')}"
+          cloud_info "\nNormalized installation order for all packages: #{all.map(&:to_s).join(', ')}"
           all.each &block
         end
     end

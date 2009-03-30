@@ -93,22 +93,27 @@ module Sprinkle
   #++
   module Package
     PACKAGES = {}
+    VIRTUAL_PACKAGES = []
 
     def package(name, metadata = {}, &block)
       package = Package.new(name, metadata, &block)
       (PACKAGES[name] ||= []) << package
-      (PACKAGES[package.provides] ||= []) << package if package.provides
+      if package.provides
+        (PACKAGES[package.provides] ||= []) << package
+        VIRTUAL_PACKAGES << package.provides
+      end
       package
     end
     
     def find(name)
       packages = PACKAGES[name]
-      if packages and packages.length > 1
+      if packages and packages.length > 1 and VIRTUAL_PACKAGES.include? name
         selected = []
         choose do |menu|
-          menu.header = "\nMultiple choices exist for package #{name}"
+          menu.layout = :one_line
+          menu.header = "Choose #{name}"
           packages.sort!.each do |package|
-            menu.choice("#{package.name}#{' (' + package.version + ')' if package.version}") do
+            menu.choice(package.to_s) do
               selected << package
             end
           end
@@ -283,9 +288,9 @@ module Sprinkle
 
       private
 
-        def meta_package?
-          @installer == nil
-        end
+      def meta_package?
+        @installer == nil
+      end
     end
   end
 end
