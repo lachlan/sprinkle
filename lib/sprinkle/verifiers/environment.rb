@@ -14,11 +14,11 @@ module Sprinkle
 
       # Checks to make sure the <tt>environment variable</tt> exists or has a specific value 
       def has_environment_variable(name, value = nil)
+        name, value = name.to_s, value.to_s
         if RUBY_PLATFORM =~ /win32/
           # use set | findstr to avoid shell substitution, which does not appear to work reliably with Kernel.system
-          # use case insensitivity for variable name but not value
-          command = "set | findstr /i /r /c:\"^#{Regexp.quote name}=\""
-          command << " | findstr /r /c:\"=#{Regexp.quote value}$\"" if value
+          command = "set #{name}"
+          command << " | findstr /r /c:\"^.*=#{Regexp.quote value}$\"" unless value.empty?
           command << ' > NUL 2>&1' unless logger.debug?
         else
           command = value.nil? ? "test -n $#{name}" : "test $#{name} == \"#{value}\""
@@ -28,10 +28,10 @@ module Sprinkle
       
       # Checks to make sure the <tt>environment variable</tt> contains the given text 
       def environment_variable_contains(name, text)
+        name, text = name.to_s, text.to_s
         if RUBY_PLATFORM =~ /win32/
           # use set | findstr to avoid shell substitution, which does not appear to work reliably with Kernel.system
-          # use case insensitivity for variable name but not text
-          command = "set | findstr /i /r /c:\"^#{Regexp.quote name}=\" | findstr /r /c:\"^.*=.*#{Regexp.quote text}.*$\""
+          command = "set #{name} | findstr /c:\"#{text}\""
           command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "echo $#{name} | grep '#{text}'"

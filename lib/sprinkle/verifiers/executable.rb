@@ -23,6 +23,7 @@ module Sprinkle
       # absolute path to an executable. If no '/' is in the path, it assumes you're
       # checking for a global executable that would be available anywhere on the command line.
       def has_executable(path)
+        path = path.to_s
         if RUBY_PLATFORM =~ /win32/
           raise NotImplementedError, "Win32 platform does not support checking for executables"
         else

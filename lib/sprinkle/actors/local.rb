@@ -19,6 +19,7 @@ module Sprinkle
       
       def process(name, commands, roles, suppress_and_return_failures = false) #:nodoc:
         commands.each do |command|
+          command = "cmd.exe /c " + command if RUBY_PLATFORM =~ /win32/
           system command
           return false if $?.to_i != 0
         end
