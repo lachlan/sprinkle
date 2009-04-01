@@ -17,7 +17,7 @@ module Sprinkle
         name, value = name.to_s, value.to_s
         if RUBY_PLATFORM =~ /win32/
           # use set | findstr to avoid shell substitution, which does not appear to work reliably with Kernel.system
-          command = "set #{name}"
+          command = "set #{name} | findstr /c:\"#{name}=\""
           command << " | findstr /r /c:\"^.*=#{Regexp.quote value}$\"" unless value.empty?
           command << ' > NUL 2>&1' unless logger.debug?
         else
