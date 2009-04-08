@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name = %q{sprinkle}
-  s.version = "0.0.13"
+  s.version = "0.0.14"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcus Crafter", "Mitchell Hashimoto"]
-  s.date = %q{2009-04-08}
+  s.date = %q{2009-04-09}
   s.default_executable = %q{sprinkle}
   s.description = %q{Ruby DSL based software provisioning tool}
   s.email = ["crafterm@redartisan.com", "mitchell.hashimoto@citrusbyte.com"]
