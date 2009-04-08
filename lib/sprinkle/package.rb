@@ -123,6 +123,7 @@ module Sprinkle
         end
         packages = selected
       end
+      packages.sort! if packages
       packages
     end
 

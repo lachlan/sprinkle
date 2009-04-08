@@ -74,7 +74,7 @@ module Sprinkle
 
         cloud_info "--> Cloud hierarchy for policy #{@name}"
 
-        @packages.each do |p|
+        @packages.sort.each do |p|
           cloud_info "\nPolicy #{@name} requires package #{p}"
           
           list = Sprinkle::Package.find(p)
