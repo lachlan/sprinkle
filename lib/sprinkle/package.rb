@@ -139,6 +139,7 @@ module Sprinkle
         @provides = metadata[:provides]
         @dependencies = []
         @recommends = []
+        @optional = []
         @verifications = []
         self.instance_eval &block
       end
@@ -191,6 +192,10 @@ module Sprinkle
       
       def rake(name, options = {}, &block)
         @installer = Sprinkle::Installers::Rake.new(self, name, options, &block)        
+      end    
+      
+      def noop(&block)
+        @installer = Sprinkle::Installers::Noop.new(self, name, options, &block)        
       end
       
       def push_text(text, path, options = {}, &block)
@@ -201,10 +206,14 @@ module Sprinkle
         @installer = Sprinkle::Installers::Script.new(self, name, options, &block)
       end
       
-      def verify(description = '', &block)
-        @verifications << Sprinkle::Verify.new(self, description, &block)
+			def transfer(source, destination, options = {}, &block)
+				@installer = Sprinkle::Installers::Transfer.new(self, source, destination, options, &block)
       end
 
+      def verify(description = '', &block)
+        @verifications << Sprinkle::Verify.new(self, description, &block)
+      end  
+      
       def process(deployment, roles)
         return if meta_package?
 
@@ -253,6 +262,11 @@ module Sprinkle
         @recommends.flatten!
       end
 
+      def optional(*packages)
+        @optional << packages
+        @optional.flatten!
+      end
+
       def tree(depth = 1, &block)
         packages = []
 
@@ -275,6 +289,15 @@ module Sprinkle
         end
 
         packages << self
+
+        @optional.each do |dep|
+          package = PACKAGES[dep]
+          next unless package # skip missing optional packages as they're allow to not exist
+          block.call(self, package, depth) if block
+          packages << package.tree(depth + 1, &block)
+        end
+
+        packages
       end
 
       def to_s

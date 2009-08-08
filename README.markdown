@@ -1,12 +1,12 @@
-= SPRINKLE
+# SPRINKLE
 
-http://redartisan.com/2008/5/27/sprinkle-intro
-http://github.com/crafterm/sprinkle
-http://github.com/benschwarz/passenger-stack
-http://www.vimeo.com/2888665
-http://redartisan.lighthouseapp.com/projects/25275-sprinkle/tickets
+* <http://redartisan.com/2008/5/27/sprinkle-intro>
+* <http://github.com/crafterm/sprinkle>
+* <http://github.com/benschwarz/passenger-stack>
+* <http://www.vimeo.com/2888665>
+* <http://redartisan.lighthouseapp.com/projects/25275-sprinkle/tickets>
 
-== DESCRIPTION:
+## DESCRIPTION:
 
 Sprinkle is a software provisioning tool you can use to build remote servers with, after the base operating
 system has been installed. For example, to install a Rails or Merb stack on a brand new slice directly after
@@ -208,18 +208,18 @@ and Git (via source with dependencies from APT):
 
     end
 
-Please see the examples directory for more complete examples of Sprinkle deployment scripts, and also the Passenger Stack github page and video by Ben Schwarz (http://github.com/benschwarz/passenger-stack and http://www.vimeo.com/2888665 respectively).
+Please see the examples directory for more complete examples of Sprinkle deployment scripts, and also the Passenger Stack github page and video by Ben Schwarz (<http://github.com/benschwarz/passenger-stack> and <http://www.vimeo.com/2888665> respectively).
 
 Sprinkle is a work in progress and I'm excited to hear if anyone finds it useful - please feel free to
 comment, ask any questions, or send in any ideas, patches, bugs. All most welcome.
 
 Marcus Crafter <crafterm@redartisan.com>
 
-== LICENSE:
+## LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2008 Marcus Crafter <crafterm@redartisan.com>
+Copyright (c) 2008-2009 Marcus Crafter <crafterm@redartisan.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

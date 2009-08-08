@@ -1,6 +1,10 @@
 Gem::Specification.new do |s|
   s.name = %q{sprinkle}
+<<<<<<< HEAD:sprinkle.gemspec
   s.version = "0.0.14"
+=======
+  s.version = "0.2.5"
+>>>>>>> 021c41a6dbe4aeea60f7404ca075ba185989157c:sprinkle.gemspec
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcus Crafter", "Mitchell Hashimoto"]
@@ -9,8 +13,8 @@ Gem::Specification.new do |s|
   s.description = %q{Ruby DSL based software provisioning tool}
   s.email = ["crafterm@redartisan.com", "mitchell.hashimoto@citrusbyte.com"]
   s.executables = ["sprinkle"]
-  s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.txt"]
-  s.files = ["CREDITS", "History.txt", "MIT-LICENSE", "Manifest.txt", "README.txt", "Rakefile", "bin/sprinkle",
+  s.extra_rdoc_files = ["History.txt", "Manifest.txt", "README.markdown"]
+  s.files = ["CREDITS", "History.txt", "MIT-LICENSE", "Manifest.txt", "README.markdown", "Rakefile", "bin/sprinkle",
              "config/hoe.rb", "config/requirements.rb", "examples/packages/build_essential.rb", 
              "examples/packages/databases/mysql.rb", "examples/packages/databases/sqlite3.rb", 
              "examples/packages/phusion.rb", "examples/packages/ruby/rails.rb", "examples/packages/ruby/ruby.rb",
@@ -25,7 +29,7 @@ Gem::Specification.new do |s|
              "lib/sprinkle/extensions/string.rb", "lib/sprinkle/extensions/symbol.rb", "lib/sprinkle/installers/apt.rb",
              "lib/sprinkle/installers/deb.rb", "lib/sprinkle/installers/gem.rb", "lib/sprinkle/installers/installer.rb",
              "lib/sprinkle/installers/rake.rb", "lib/sprinkle/installers/rpm.rb", "lib/sprinkle/installers/script.rb","lib/sprinkle/installers/source.rb",
-             "lib/sprinkle/installers/yum.rb", "lib/sprinkle/installers/freebsd_pkg.rb", "lib/sprinkle/installers/openbsd_pkg.rb",
+             "lib/sprinkle/installers/yum.rb", "lib/sprinkle/installers/freebsd_pkg.rb", "lib/sprinkle/installers/openbsd_pkg.rb", "lib/sprinkle/installers/noop.rb",
              "lib/sprinkle/installers/opensolaris_pkg.rb", "lib/sprinkle/installers/bsd_port.rb", "lib/sprinkle/installers/mac_port.rb", "lib/sprinkle/installers/push_text.rb", 
              "lib/sprinkle/package.rb", "lib/sprinkle/policy.rb", "lib/sprinkle/script.rb", "lib/sprinkle/verifiers/directory.rb", 
              "lib/sprinkle/verifiers/executable.rb", "lib/sprinkle/verifiers/file.rb", "lib/sprinkle/verifiers/process.rb", 
@@ -42,7 +46,7 @@ Gem::Specification.new do |s|
                   "spec/sprinkle/script_spec.rb", "spec/sprinkle/sprinkle_spec.rb", "spec/sprinkle/installers/rake_spec.rb", "spec/sprinkle/verify_spec.rb"]
   s.has_rdoc = true
   s.homepage = %q{http://sprinkle.rubyforge.org}
-  s.rdoc_options = ["--main", "README.txt"]
+  s.rdoc_options = ["--main", "README.markdown"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{sprinkle}
   s.rubygems_version = %q{1.3.0}

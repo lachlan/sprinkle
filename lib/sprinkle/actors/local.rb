@@ -26,6 +26,13 @@ module Sprinkle
         return true
       end
       
+			def transfer(name, source, destination, roles, recursive = true, suppress_and_return_failures = false)
+				if recursive
+					flags = "-R "
+				end
+				
+				system "cp #{flags}#{source} #{destination}"
+			end
     end
   end
 end
