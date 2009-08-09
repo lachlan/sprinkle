@@ -93,18 +93,29 @@ module Sprinkle
   #++
   module Package
     PACKAGES = {}
-    VIRTUAL_PACKAGES = []
+    
+    # Keep a list of all the virtual packages defined, so if multiple packages are 
+    # defined that provide this virtual package we can ask the user which they would 
+    # like to install.
+    VIRTUAL_PACKAGES = [] 
 
     def package(name, metadata = {}, &block)
       package = Package.new(name, metadata, &block)
+      # there might be multiple versions of a package so append to the list
       (PACKAGES[name] ||= []) << package
       if package.provides
+        # there might be multiple providers so append to provider list and remember
+        # that this packages is virtual
         (PACKAGES[package.provides] ||= []) << package
         VIRTUAL_PACKAGES << package.provides
       end
       package
     end
     
+    # Returns a list of packages with the given name.  If multiple packages were
+    # defined with the same name (ie. different versions of the same software) then
+    # all versions are returned.  If the given name identifies a virtual package then
+    # and there are multiple providers, then prompt the user to choose which to install.
     def find(name)
       packages = PACKAGES[name]
       if packages and packages.length > 1 and VIRTUAL_PACKAGES.include? name
