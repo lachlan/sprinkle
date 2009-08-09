@@ -301,13 +301,15 @@ module Sprinkle
 
         packages << self
 
-        @optional.each do |dep|
-          package = PACKAGES[dep]
-          next unless package # skip missing optional packages as they're allow to not exist
-          block.call(self, package, depth) if block
-          packages << package.tree(depth + 1, &block)
+        @optional.each do |name|
+          list = find(name)
+          next unless list # skip missing optional packages as they're allowed to not exist
+          list.each { |package|
+            block.call(self, package, depth) if block 
+            packages << package.tree(depth + 1, &block)            
+          }
         end
-
+        
         packages
       end
 
