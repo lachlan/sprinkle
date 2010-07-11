@@ -11,7 +11,7 @@ module Sprinkle
     #   end
     class Script < Installer
       attr_accessor :script_file, :script_path #:nodoc:
-      @@command_delimiter = (RUBY_PLATFORM =~ /win32/ ? ' & ' : '; ')
+      @@command_delimiter = (RUBY_PLATFORM =~ /win|mingw/ ? ' & ' : '; ')
 
       def initialize(parent, name, options={}, &block) #:nodoc:
         super parent, options, &block
@@ -25,7 +25,7 @@ module Sprinkle
           commands << "pushd \"#{@script_path}\"" if @script_path
           
           command = @script_file
-          command << ' > NUL' if RUBY_PLATFORM =~ /win32/ and not logger.debug?
+          command << ' > NUL' if RUBY_PLATFORM =~ /win|mingw/ and not logger.debug?
           commands << command
 
           commands << "popd" if @script_path

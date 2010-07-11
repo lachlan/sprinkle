@@ -20,7 +20,7 @@ module Sprinkle
       # given, it checks that <tt>symlink</tt> points to <tt>file</tt>
       def has_symlink(symlink, file = nil)
         symlink, file = symlink.to_s, file.to_s
-        if RUBY_PLATFORM =~ /win32/
+        if RUBY_PLATFORM =~ /win|mingw/
           raise NotImplementedError, "Win32 platform does not support checking for symbolic links"
         else
           if file.empty?
