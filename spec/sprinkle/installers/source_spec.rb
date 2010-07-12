@@ -25,6 +25,8 @@ describe Sprinkle::Installers::Source do
 
       with %w( debug extras )
       without %w( fancyisms )
+
+      option %w( foo bar baz )
     end
 
     @installer.defaults(@deployment)
@@ -84,6 +86,10 @@ describe Sprinkle::Installers::Source do
 
     it 'should support specification of "without" options' do
       @installer.without.should == %w( fancyisms )
+    end
+
+    it 'should support specification of "option" options' do
+      @installer.option.should == %w( foo bar baz )
     end
 
     it 'should support customized build area' do
@@ -333,12 +339,32 @@ describe Sprinkle::Installers::Source do
 
     it 'should support zip archives' do
       @installer.source = 'blah.zip'
-      @extraction = 'unzip'
+      @extraction = 'unzip -o'
     end
 
     after do
       @installer.send(:extract_command).should == @extraction
     end
+
+  end
+
+  describe 'base dir calculation' do
+
+    %w( tar tar.gz tgz tar.bz2 tb2 zip ).each do |archive|
+
+      it "should recognize #{archive} style archives" do
+        @installer.source = "blah.#{archive}"
+        @installer.send(:base_dir).should == 'blah'
+      end
+
+    end
+
+    # def base_dir #:nodoc:
+    #   if archive_name.split('/').last =~ /(.*)\.(tar\.gz|tgz|tar\.bz2|tar|tb2)/
+    #     return $1
+    #   end
+    #   raise "Unknown base path for source archive: #{@source}, please update code knowledge"
+    # end
 
   end
 
