@@ -14,7 +14,7 @@ module Sprinkle
       # Checks to make sure the <tt>registry</tt> key exists
       def has_registry_key(key)
         key = key.to_s
-        if RUBY_PLATFORM =~ /win|mingw/
+        if ENV['os'] =~ /win/i
           command = "reg query \"#{key}\" 2>&1 | findstr /i /c:\"#{key}\""
           command << ' > NUL 2>&1' unless logger.debug?
         else
@@ -26,7 +26,7 @@ module Sprinkle
       # Checks to make sure the <tt>registry</tt> value exists
       def has_registry_value(key, name, value)
         key, name, value = key.to_s, name.to_s, value.to_s
-        if RUBY_PLATFORM =~ /win|mingw/
+        if ENV['os'] =~ /win/i
           if value.empty?
             # The regular expression includes a [\t ], which is a tab character and a space.
             # XP delimits the output with 1 tab, Win2003 trails with 4 spaces!

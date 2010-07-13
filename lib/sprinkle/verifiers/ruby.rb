@@ -19,7 +19,7 @@ module Sprinkle
       def has_gem(name, version=nil)
         name = name.to_s
         version = version.nil? ? '' : version.gsub('.', '\.')
-        if RUBY_PLATFORM =~ /win|mingw/
+        if ENV['os'] =~ /win/i
           command = "gem list | findstr /r /c:\"^#{name} (.*#{version}.*)$\""
           command << ' > NUL 2>&1' unless logger.debug?
         else

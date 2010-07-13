@@ -10,7 +10,7 @@ module Sprinkle
       # Tests that the directory <tt>dir</tt> exists.
       def has_directory(dir)
         dir = dir.to_s
-        if RUBY_PLATFORM =~ /win|mingw/
+        if ENV['os'] =~ /win/i
           dir += "\\" unless dir[-1,1] == "\\"
           command = "if exist \"#{dir}\" (exit 0) else (exit 1)"
           command << ' > NUL 2>&1' unless logger.debug?

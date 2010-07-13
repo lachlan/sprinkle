@@ -101,7 +101,7 @@ module Sprinkle
     attr_accessor :package, :commands
     
     def initialize(package, commands)
-      super("Verifying #{package.name} failed: #{Array(commands).join(RUBY_PLATFORM =~ /win|mingw/ ? ' & ' : '; ')}")
+      super("Verifying #{package.name} failed: #{Array(commands).join(ENV['os'] =~ /win/i ? ' & ' : '; ')}")
       
       @package = package
       @commands = commands
