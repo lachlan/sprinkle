@@ -195,6 +195,10 @@ module Sprinkle
         @installers << Sprinkle::Installers::Yum.new(self, *names, &block)
       end
 
+      def zypper(*names, &block)
+        @installers << Sprinkle::Installers::Zypper.new(self, *names, &block)
+      end
+
       def gem(name, options = {}, &block)
         @recommends << :rubygems
         @installers << Sprinkle::Installers::Gem.new(self, name, {:version => @version}.merge(options), &block)
@@ -225,6 +229,10 @@ module Sprinkle
         @installers << Sprinkle::Installers::Script.new(self, name, options, &block)
       end
       
+      def replace_text(regex, text, path, options={}, &block)
+        @installers << Sprinkle::Installers::ReplaceText.new(self, regex, text, path, options, &block)
+      end
+      
       def transfer(source, destination, options = {}, &block)
         @installers << Sprinkle::Installers::Transfer.new(self, source, destination, options, &block)
       end
@@ -236,6 +244,7 @@ module Sprinkle
       def process(deployment, roles)
         return if meta_package?
         logger.info "\n#{self.to_s}"
+
         # Run a pre-test to see if the software is already installed. If so,
         # we can skip it, unless we have the force option turned on!
         unless @verifications.empty? || Sprinkle::OPTIONS[:force]
