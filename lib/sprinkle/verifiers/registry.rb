@@ -31,9 +31,9 @@ module Sprinkle
             # The regular expression includes a [\t ], which is a tab character and a space.
             # XP delimits the output with 1 tab, Win2003 trails with 4 spaces!
             # Note: Checking for blank and a value of space(s) will report a false positive.
-            command = "reg query \"#{key}\" /v \"#{name}\" | findstr /r /c:\"^.*#{Regexp.quote name}.*REG_[A-Z]*[\t ]*$"
+            command = "reg query \"#{key}\" /v \"#{name}\" | findstr /i /c:\"#{name}\""
           else
-            command = "reg query \"#{key}\" /v \"#{name}\" | findstr /r /c:\"^.*#{Regexp.quote name}.*REG_[A-Z]*[\t ]*#{Regexp.quote value}$"
+            command = "reg query \"#{key}\" /v \"#{name}\" | findstr /i /c:\"#{name}\" | findstr /c:\"#{value}\""
           end
           command << ' > NUL 2>&1' unless logger.debug?
         else
