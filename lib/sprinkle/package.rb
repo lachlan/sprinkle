@@ -154,6 +154,9 @@ module Sprinkle
         @installers = []
         self.instance_eval &block
       end
+      def add_user(username, options={},  &block)
+        @installers<<Sprinkle::Installers::User.new(self, username, options, &block)
+      end
 
       def freebsd_pkg(*names, &block)
         @installers << Sprinkle::Installers::FreebsdPkg.new(self, *names, &block)
@@ -236,6 +239,10 @@ module Sprinkle
       def transfer(source, destination, options = {}, &block)
         @installers << Sprinkle::Installers::Transfer.new(self, source, destination, options, &block)
       end
+
+			def runner(cmd)
+				@installers << Sprinkle::Installers::Runner.new(self, cmd)
+			end
 
       def verify(description = '', &block)
         @verifications << Sprinkle::Verify.new(self, description, &block)

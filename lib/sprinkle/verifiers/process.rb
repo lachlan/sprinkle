@@ -19,7 +19,7 @@ module Sprinkle
           command = "tasklist /fo table /nh | findstr /c:\"#{process}\""
           command << ' > NUL 2>&1' unless logger.debug?
         else
-          command = "ps aux | grep '#{process}' | grep -v grep"
+          command = "ps -C #{process}"
         end
         @commands << command
       end
