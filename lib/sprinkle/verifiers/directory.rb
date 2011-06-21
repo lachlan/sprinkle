@@ -12,7 +12,8 @@ module Sprinkle
         dir = dir.to_s
         if ENV['os'] =~ /win/i
           dir += "\\" unless dir[-1,1] == "\\"
-          command = "if exist \"#{dir}\" (exit 0) else (exit 1)"
+          # if the dir exists and we can list it then its a directory
+          command = "dir /ad \"#{dir}\" > NUL 2>&1 & if errorlevel 1 (exit 1) else (exit 0)"          
           command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "test -d #{dir}"

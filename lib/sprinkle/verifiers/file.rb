@@ -17,7 +17,8 @@ module Sprinkle
       def has_file(path)
         path = path.to_s
         if ENV['os'] =~ /win/i
-          command = "if exist \"#{path}\" (if not exist \"#{path}\\\" (exit 0) else (exit 1)) else (exit 1)"
+          # if the path exists and we can't list it then its a file
+          command = "if exist \"#{path}\" (dir /ad \"#{path}\" > NUL 2>&1 & if errorlevel 1 (exit 0) else (exit 1)) else (exit 1)"
           command << ' > NUL 2>&1' unless logger.debug?
         else
           command = "test -f #{path}"
